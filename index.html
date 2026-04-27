@@ -1334,6 +1334,16 @@ async function handleSubmit(e) {
 
   form.style.display = 'none';
   document.getElementById('form-success').style.display = 'block';
+function initForm() {
+  document.querySelectorAll('.contact-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      setTimeout(() => {
+        const cb = this.querySelector('input');
+        if (cb.checked) this.classList.add('selected');
+        else this.classList.remove('selected');
+      }, 0);
+    });
+  });
 }
 </script>
 

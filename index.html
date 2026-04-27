@@ -1307,26 +1307,33 @@ function toggleContact(label) {
 }
 
 // Form submit
-function handleSubmit(e) {
+async function handleSubmit(e) {
   e.preventDefault();
-  // Placeholder: here you'd send to CRM
-  const form = document.getElementById('lead-form');
-  const success = document.getElementById('form-success');
-  form.style.display = 'none';
-  success.style.display = 'block';
-}
 
-function initForm() {
-  // Contact option click fix
-  document.querySelectorAll('.contact-option').forEach(opt => {
-    opt.addEventListener('click', function() {
-      setTimeout(() => {
-        const cb = this.querySelector('input');
-        if (cb.checked) this.classList.add('selected');
-        else this.classList.remove('selected');
-      }, 0);
+  const form = document.getElementById('lead-form');
+  const btn = form.querySelector('.form-submit');
+  btn.textContent = 'Отправляем...';
+  btn.disabled = true;
+
+  const data = {
+    interest: selectedInterest,
+    name: form.name.value,
+    phone: form.phone.value,
+    email: form.email.value,
+    telegram: form.telegram.value,
+    age: form.age.value,
+    comment: form.comment.value
+  };
+
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbwcnpaeouHUK4PTLp0fDYR_vsK8DMliP9rKKYnBhFPHIQZOlW_uM4jRj0YMsWk_AUrd/exec', {
+      method: 'POST',
+      body: JSON.stringify(data)
     });
-  });
+  } catch (err) {}
+
+  form.style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
 }
 </script>
 

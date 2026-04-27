@@ -1358,3 +1358,130 @@ function initForm() {
 </script>
 </body>
 </html>
+    intCard.innerHTML = `<img src="${P.img_chemistry_flasks}" alt="Интенсив в лабе">`;
+  }
+
+  // Labs big block
+  const labsPhotos = document.getElementById('labs-photos');
+  if (labsPhotos) {
+    labsPhotos.className = 'labs-photos reveal delay-1';
+    labsPhotos.innerHTML = `
+      <div class="labs-photo">
+        <img src="https://i8.imageban.ru/out/2026/04/24/dc56570a5d8ae4f8e876dc41ecb0be43.jpg" alt="Летние городские лаборатории">
+      </div>
+      <div class="labs-photo">
+        <img src="https://i2.imageban.ru/out/2026/04/24/416a9aef0f380acaa6875cb9b7a541b6.jpg" alt="Летние городские лаборатории">
+      </div>
+      <div class="labs-photo">
+        <img src="https://i7.imageban.ru/out/2026/04/24/94bb04c46f2203cc06787b82d180dd6b.jpg" alt="Летние городские лаборатории">
+      </div>
+    `;
+  }
+
+  // Intensives big block
+  const intPhotos = document.getElementById('int-photos');
+  if (intPhotos) {
+    intPhotos.className = 'intensives-photos reveal';
+    intPhotos.innerHTML = `
+      <div class="int-photo">
+        <img src="https://i6.imageban.ru/out/2026/04/24/2758f484cb5874360ec2b4c155b8b6b5.jpg" alt="Интенсив Sciencely">
+      </div>
+      <div class="int-photo">
+        <img src="https://i1.imageban.ru/out/2026/04/24/fb70e27e685d581f236253c704fae905.jpg" alt="Интенсив Sciencely">
+      </div>
+      <div class="int-photo">
+        <img src="https://i8.imageban.ru/out/2026/04/24/b992d2a4c1f093b4167caa5fcaabc56b.jpg" alt="Интенсив Sciencely">
+      </div>
+    `;
+  }
+}
+
+function initReveal() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+// Interest selection
+let selectedInterest = '';
+function selectInterest(label, value) {
+  document.querySelectorAll('.interest-option').forEach(l => l.classList.remove('selected'));
+  label.classList.add('selected');
+  selectedInterest = value;
+  // Set hidden fields for amoCRM
+  document.getElementById('field_labs').value = (value === 'labs' || value === 'both') ? '1' : '';
+  document.getElementById('field_intensives').value = (value === 'intensives' || value === 'both') ? '1' : '';
+  document.getElementById('field_both').value = value === 'both' ? '1' : '';
+}
+
+// Contact preference
+function toggleContact(label) {
+  setTimeout(() => {
+    const cb = label.querySelector('input[type=checkbox]');
+    if (cb && cb.checked) {
+      label.classList.add('selected');
+    } else {
+      label.classList.remove('selected');
+    }
+  }, 0);
+}
+
+// Form submit
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  const form = document.getElementById('lead-form');
+  const btn = form.querySelector('.form-submit');
+  btn.textContent = 'Отправляем...';
+  btn.disabled = true;
+
+  const data = {
+    interest: selectedInterest,
+    name: form.name.value,
+    phone: form.phone.value,
+    email: form.email.value,
+    telegram: form.telegram.value,
+    age: form.age.value,
+    comment: form.comment.value
+  };
+
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbwcnpaeouHUK4PTLp0fDYR_vsK8DMliP9rKKYnBhFPHIQZOlW_uM4jRj0YMsWk_AUrd/exec', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  } catch (err) {}
+
+  form.style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+function initForm() {
+  document.querySelectorAll('.contact-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      setTimeout(() => {
+        const cb = this.querySelector('input');
+        if (cb.checked) this.classList.add('selected');
+        else this.classList.remove('selected');
+      }, 0);
+    });
+  });
+}
+</script>
+
+<!-- PHOTOS DATA -->
+<script>window.PHOTOS = {
+  img_chemistry_flasks: "https://i1.imageban.ru/out/2026/04/24/08dd16070aa26cc33964ee86ad29d081.jpg",
+  img_boy_summer_field: "https://i8.imageban.ru/out/2026/04/24/5bd5e817653541d0d9487972cf8a3212.jpg",
+  img_girl_test_tubes: "https://i6.imageban.ru/out/2026/04/24/cfd20c93ebd8f2615bfb5d07f255c32a.jpg",
+  img_outdoor_water: "https://i1.imageban.ru/out/2026/04/24/bd8e18873dd793d658ea7ba286d48424.jpg",
+  img_girls_outdoor: "https://i1.imageban.ru/out/2026/04/24/898c67fff602c2959338397013484f03.jpg",
+};
+</script>
+</body>
+</html>

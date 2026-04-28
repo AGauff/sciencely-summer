@@ -779,5 +779,40 @@ window.PHOTOS = {
   img_girls_outdoor: "https://i1.imageban.ru/out/2026/04/24/898c67fff602c2959338397013484f03.jpg",
 };
 </script>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+  background: var(--ink); color: rgba(255,255,255,0.85);
+  padding: 16px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  font-size: 0.82rem; line-height: 1.5;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
+">
+  <span style="max-width: 720px;">
+    Мы используем файлы cookie для корректной работы сайта и улучшения качества обслуживания. Продолжая использование сайта, вы соглашаетесь с 
+    <a href="https://sciencely.ru/confident" target="_blank" style="color: var(--sun); text-decoration: underline;">политикой конфиденциальности</a>.
+  </span>
+  <button onclick="acceptCookies()" style="
+    background: var(--sun); color: var(--ink);
+    border: none; border-radius: 100px;
+    padding: 10px 24px; font-family: 'Rubik', sans-serif;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    white-space: nowrap; flex-shrink: 0;
+    transition: opacity 0.2s;
+  ">Принять</button>
+</div>
+
+<script>
+  function acceptCookies() {
+    localStorage.setItem('cookies_accepted', '1');
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+  if (localStorage.getItem('cookies_accepted')) {
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+</script>  
+  
 </body>
 </html>

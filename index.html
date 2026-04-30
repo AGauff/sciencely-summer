@@ -773,15 +773,20 @@ async function handleSubmit(e) {
     marketing: document.getElementById('cb-marketing').checked ? 'да' : 'нет'
   };
 
-  try {
-    await fetch('https://script.google.com/macros/s/AKfycbwcnpaeouHUK4PTLp0fDYR_vsK8DMliP9rKKYnBhFPHIQZOlW_uM4jRj0YMsWk_AUrd/exec', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
-  } catch (err) {}
+try {
+  await fetch('https://script.google.com/macros/s/AKfycbwcnpaeouHUK4PTLp0fDYR_vsK8DMliP9rKKYnBhFPHIQZOlW_uM4jRj0YMsWk_AUrd/exec', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
+} catch (err) {}
 
-  form.style.display = 'none';
-  document.getElementById('form-success').style.display = 'block';
+// Отправка цели в Метрику
+if (typeof ym === 'function') {
+  ym(62173474, 'reachGoal', 'form_submit_summer');
+}
+
+form.style.display = 'none';
+document.getElementById('form-success').style.display = 'block';
 }
 </script>
 
